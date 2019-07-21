@@ -1,0 +1,85 @@
+version: '3'
+services:
+  # postgres : DATABASE
+  db:
+    image: 'postgres:alpine'
+    restart: always
+    environment:
+      POSTGRES_USER: anto
+      POSTGRES_PASSWORD: antoto
+      POSTGRES_DB: test
+
+  # LIKE PHPMYADMIN
+  adminer:
+    image: 'adminer'
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - db
+
+  # KIND OF CACHE
+  redis:
+    image: 'redis:alpine'
+
+  # Web Server
+  nginx:
+    build: 
+      context: ./nginx
+    restart: always
+    ports:
+      - '3050:80'
+    depends_on:
+        - api
+        - client
+
+  # CONNECT TO THE DATABASE
+  api:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      PGUSER: anto
+      PGHOST: db
+      PGDATABASE: test
+      PGPASSWORD: antoto
+      PGPORT: 5432
+      CHOKIDAR_USEPOLLING: 1
+    depends_on:
+      - redis
+      - db
+  
+  # React - Frontend
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    depends_on:
+      - worker
+      - api
+      - redis
+      - db
+    environment:
+      CHOKIDAR_USEPOLLING: 1
+
+  worker:
+    build: 
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+      CHOKIDAR_USEPOLLING: 1
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
