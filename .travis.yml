@@ -4,20 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t antolc/multi-test -f ./client/Dockerfile.dev ./client
+  - docker build -t antoto/multi-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true antolc/multi-test npm run test
+  - docker run -e CI=true antoto/multi-test npm run test
 
 after_success:
-  - docker build -t antolc/multi-client ./client
-  - docker build -t antolc/multi-server ./server
-  - docker build -t antolc/multi-nginx  ./nginx
-  - docker build -t antolc/multi-worker ./worker
+  - docker build -t antoto/multi-client ./client
+  - docker build -t antoto/multi-server ./server
+  - docker build -t antoto/multi-nginx  ./nginx
+  - docker build -t antoto/multi-worker ./worker
   # LOGIN TO Docker CLI
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push antolc/multi-client
-  - docker push antolc/multi-server
-  - docker push antolc/multi-nginx
-  - docker push antolc/multi-worker
+  - docker push antoto/multi-client
+  - docker push antoto/multi-server
+  - docker push antoto/multi-nginx
+  - docker push antoto/multi-worker
