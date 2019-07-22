@@ -15,7 +15,7 @@ after_success:
   - docker build -t antolc/multi-nginx  -f ./nginx
   - docker build -t antolc/multi-worker -f ./worker
   # LOGIN TO Docker CLI
-  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" -- password--stdin
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password--stdin
   # Take those images and push them to docker hub
   - docker push antolc/multi-client
   - docker push antolc/multi-server
