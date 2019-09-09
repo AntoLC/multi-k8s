@@ -1,0 +1,17 @@
+# Kill them all
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all
+kubectl delete namespaces [NAME]
+
+
+# START nginx
+1. Make sure you executed the mandatory generic script that was discussed in the lecture:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
+ 
+2. Execute the provider specific script to enable the service:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
+ 
+The official docs are not very clear about this but the script applies to both Windows and Mac versions of Docker Desktop, even though it only lists Docker for Mac. If you have missed this step, then your Ingress will not work!
+
+3. Verify the service was enabled by running the following:
+kubectl get svc -n ingress-nginx
+
