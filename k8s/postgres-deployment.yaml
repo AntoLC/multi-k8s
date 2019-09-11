@@ -12,10 +12,17 @@ spec:
       labels:
         component: postgres
     spec:
+      initContainers:
+        - name: prepare-subpath
+          image: busybox
+          command: ["mkdir", "/var/lib/postgresql/data/postgres"]
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-storage
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
-              claimName: database-persistent-volume-claim
+            claimName: database-persistent-volume-claim
       containers:
         - name: postgres
           image: postgres
