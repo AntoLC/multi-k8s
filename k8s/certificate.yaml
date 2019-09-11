@@ -4,7 +4,6 @@ metadata:
   name: irentsellbuy-com-tls
 spec:
   secretName: irentsellbuy-com
-
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
