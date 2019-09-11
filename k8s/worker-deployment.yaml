@@ -15,10 +15,10 @@ spec:
       containers:
         - name: worker
           image: antoto/multi-worker
-          resources:
-            limits:
-              memory: "64Mi"
-              cpu: "200m"
+          # resources:
+          #   limits:
+          #     memory: "64Mi"
+          #     cpu: "200m"
           env:
             - name: REDIS_HOST
               value: redis-cluster-ip-service
