@@ -26,6 +26,8 @@ spec:
       containers:
         - name: postgres
           image: postgres
+          securityContext:
+            privileged: true
           # resources:
           #   limits:
           #     memory: "64Mi"
