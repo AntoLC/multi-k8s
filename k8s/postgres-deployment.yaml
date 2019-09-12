@@ -36,7 +36,7 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - name: postgres-storage
-              mountPath: /var/lib/postgresql/data:z
+              mountPath: /var/lib/postgresql/data
               subPath: postgres
               readOnly: false
           env: 
